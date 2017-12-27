@@ -1,82 +1,21 @@
 fileFormatVersion: 2
-guid: 30aeb4359d89fbd42abc36c2e90056ea
-timeCreated: 1512286731
+guid: 660145200db26bb48a1370e100522853
+timeCreated: 1514261379
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: Building
-    100002: Cabinet
-    100004: Desk
-    100006: Floor
-    100008: Frames
-    100010: Furniture
-    100012: PortalBase
-    100014: Roof
-    100016: //RootNode
-    100018: Walls
-    100020: Nav
-    100022: PlaneDown
-    100024: PlaneUp
-    400000: Building
-    400002: Cabinet
-    400004: Desk
-    400006: Floor
-    400008: Frames
-    400010: Furniture
-    400012: PortalBase
-    400014: Roof
-    400016: //RootNode
-    400018: Walls
-    400020: Nav
-    400022: PlaneDown
-    400024: PlaneUp
-    2300000: Cabinet
-    2300002: Desk
-    2300004: Floor
-    2300006: Frames
-    2300008: PortalBase
-    2300010: Roof
-    2300012: Walls
-    2300014: PlaneDown
-    2300016: PlaneUp
-    2300018: Nav
-    3300000: Cabinet
-    3300002: Desk
-    3300004: Floor
-    3300006: Frames
-    3300008: PortalBase
-    3300010: Roof
-    3300012: Walls
-    3300014: PlaneDown
-    3300016: PlaneUp
-    3300018: Nav
-    4300000: PortalBase
-    4300002: Frames
-    4300004: Cabinet
-    4300006: Desk
-    4300008: Walls
-    4300010: Roof
-    4300012: Floor
-    4300014: PlaneUp
-    4300016: PlaneDown
-    4300018: Nav
-    6400000: Cabinet
-    6400002: Desk
-    6400004: Floor
-    6400006: Frames
-    6400008: PortalBase
-    6400010: Roof
-    6400012: Walls
-    6400014: PlaneDown
-    6400016: PlaneUp
-    6400018: Nav
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Marble_0_16x0_16x0_16
     7400000: Default Take
     9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
-    materialSearch: 2
+    materialSearch: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -102,13 +41,13 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
+    importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
@@ -123,7 +62,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-  importAnimation: 0
+  importAnimation: 1
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
@@ -139,10 +78,10 @@ ModelImporter:
     rootMotionBoneName: 
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
