@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MarbleSlot : MonoBehaviour {
 
-    public PuzzleMasterMVP puzzle;
+    public Puzzle puzzle;
     private float marbleZ = 0.14f;
 
     private void OnTriggerEnter(Collider col)

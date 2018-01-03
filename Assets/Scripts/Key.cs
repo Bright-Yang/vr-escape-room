@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Key : MonoBehaviour {
 
-    public PuzzleMasterMVP puzzle;
+    public Util_Animate chest;
 
     private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.CompareTag("Chest"))
         {
             gameObject.SetActive(false);
-            puzzle.OpenChest();
+            chest.Trigger();
         }
     }
 }

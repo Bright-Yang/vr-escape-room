@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Grab
   - Chest
   - Marble
+  - Interactable
+  - Grab
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - 
   - 
   - Nav
-  - 
+  - IgnoreNav
   - 
   - 
   - 

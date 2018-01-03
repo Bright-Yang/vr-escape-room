@@ -5,14 +5,14 @@ using UnityEngine;
 public class PuzzleMasterMVP : MonoBehaviour {
 
     public List<GameObject> marbles; // R, G, B, Y
-    public Chest chest;
+    public Util_Animate chest;
 
     private bool[] marbleStatus = { false, false, false, false };
     private bool marbleCorrect;
   
     public void OpenChest()
     {
-        chest.Open();
+        chest.Trigger();
 
         // Make Yellow Marble Accessable
         marbles[3].SetActive(true);
