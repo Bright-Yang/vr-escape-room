@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Tutorial_Key : MonoBehaviour {
 
-    public Rigidbody rb;
     public Util_Animate chest;
     public Tutorial tutorial;
 
@@ -16,16 +15,6 @@ public class Tutorial_Key : MonoBehaviour {
             chest.Trigger();
             tutorial.LearnDoor();
         }
-    }
-
-    private void onGrab()
-    {
-        rb.isKinematic = false;
-    }
-
-    private void onUngrab()
-    {
-        rb.isKinematic = true;
     }
 
 }

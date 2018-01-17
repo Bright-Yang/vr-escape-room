@@ -7,13 +7,18 @@ public class Welcome : MonoBehaviour {
 
     [Header("Audio")]
     public AudioMixer audioMixer;
-    public AudioMixerSnapshot BgmOn;
-    public AudioMixerSnapshot BgmOff;
+    public AudioMixerSnapshot bgmOn;
+    public AudioMixerSnapshot bgmOff;
     public AudioMixerSnapshot masterOff;
     public GameObject ears;
     public List<GameObject> audioSources;
     public AudioSource bgm;
     public AudioSource story;
+
+    [Header("Canvas")]
+    public GameObject welcomeCanvas;
+    public GameObject skipStoryCanvas;
+    public GameObject skipTutorialCanvas;
 
     void Start()
     {
@@ -23,6 +28,18 @@ public class Welcome : MonoBehaviour {
         }
     }
 
+    public void StartGame()
+    {
+        welcomeCanvas.SetActive(false);
+        skipStoryCanvas.SetActive(true);
+    }
+
+    public void SkipStory()
+    {
+        skipStoryCanvas.SetActive(false);
+        skipTutorialCanvas.SetActive(true);
+    }
+
     public void LoadStory()
     {
         StartCoroutine("startStory");
@@ -30,7 +47,7 @@ public class Welcome : MonoBehaviour {
 
     IEnumerator startStory()
     {
-        BgmOff.TransitionTo(1);
+        bgmOff.TransitionTo(1);
         SteamVR_Fade.View(Color.clear, 0);
         SteamVR_Fade.View(Color.black, 1);
 
@@ -39,9 +56,24 @@ public class Welcome : MonoBehaviour {
         story.Play();
 
         yield return new WaitForSeconds(70);
-        masterOff.TransitionTo(3);
+        masterOff.TransitionTo(1);
+        
+        yield return new WaitForSeconds(1);
+        SkipStory();
+        bgmOn.TransitionTo(1);
+        bgm.Play();
+        story.Pause();
+        SteamVR_Fade.View(Color.black, 0);
+        SteamVR_Fade.View(Color.clear, 1);
+    }
 
-        yield return new WaitForSeconds(3);
+    public void LoadTutorial()
+    {
         SteamVR_LoadLevel.Begin("Tutorial");
+    }
+
+    public void LoadGame()
+    {
+        SteamVR_LoadLevel.Begin("Puzzle");
     }
 }

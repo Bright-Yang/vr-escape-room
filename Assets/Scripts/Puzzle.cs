@@ -1,22 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Puzzle : MonoBehaviour {
 
+    [Header("Audio")]
     public GameObject ears;
     public List<GameObject> audioSources;
     public AudioSource sfxSource;
+    public AudioClip sfxWin;
+    public AudioClip sfxTimeup;
 
-    public AudioClip win;
-
+    [Header("Marbles")]
     public List<GameObject> marbles; // R, G, B, Y
     public MeshRenderer marblesClueFrame;
     public Texture marblesClue;
 
+    [Header("UI")]
+    public float totalMinutes;
+    public GameObject canvas;
+    public Text countdown;
+
+    private float totalSec;
     private bool[] marbleStatus = { false, false, false, false };
     private bool marbleCorrect;
-    
 
     // Use this for initialization
     void Start () {
@@ -25,6 +33,9 @@ public class Puzzle : MonoBehaviour {
         {
             audioSource.transform.SetParent(ears.transform);
         }
+
+        totalSec = totalMinutes * 60;
+        UpdateCountdown();
     }
 
     public void ShowMarblesClue()
@@ -101,10 +112,62 @@ public class Puzzle : MonoBehaviour {
 
     IEnumerator escape()
     {
-        sfxSource.clip = win;
+        sfxSource.clip = sfxWin;
         sfxSource.Play();
         yield return new WaitForSeconds(sfxSource.clip.length);
+        LoadWelcome();
+    }
+
+    public void LoadWelcome()
+    {
         SteamVR_LoadLevel.Begin("Welcome");
+    }
+
+    public void LoadTutorial()
+    {
+        SteamVR_LoadLevel.Begin("Tutorial");
+    }
+
+    public void ToggleCanvas()
+    {
+
+        if (canvas.activeSelf)
+        {
+            canvas.SetActive(false);
+        }
+        else
+        {
+            canvas.SetActive(true);
+        }
+    }
+
+    private void UpdateCountdown()
+    {
+        float remainTime = totalSec - Time.timeSinceLevelLoad;
+        float remainMin = Mathf.Floor(remainTime / 60);
+        float remainSec = Mathf.Floor(remainTime - remainMin * 60);
+        string countdownString = remainMin.ToString("00") + ":" + remainSec.ToString("00");
+        countdown.text = countdownString;
+    }
+
+    private void Update()
+    {
+        if (canvas.activeSelf)
+        {
+            UpdateCountdown();
+        }
+        if (Time.timeSinceLevelLoad > totalSec)
+        {
+            StartCoroutine("timeup");
+        }
+    }
+
+    IEnumerator timeup()
+    {
+        sfxSource.clip = sfxTimeup;
+        sfxSource.Play();
+        yield return new WaitForSeconds(sfxSource.clip.length);
+        LoadWelcome();
     }
 
 }

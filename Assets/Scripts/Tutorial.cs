@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using VRTK;
 
 public class Tutorial : MonoBehaviour {
@@ -50,13 +51,15 @@ public class Tutorial : MonoBehaviour {
 
     IEnumerator startTutorial()
     {
-
         SteamVR_Fade.View(Color.black, 0);
+        yield return new WaitForSeconds(1);
+
+        canvas.SetActive(false);
         PlayClip(); // 01
 
         yield return new WaitForSeconds(voiceOvers[currClip].length + 1);
 
-        canvas.SetActive(false);
+        
         SteamVR_Fade.View(Color.black, 0);
         SteamVR_Fade.View(Color.clear, 1);
 
@@ -66,12 +69,14 @@ public class Tutorial : MonoBehaviour {
 
     public void LearnWalk()
     {
+        Debug.Log("Called LearnWalk");
         PlayClip(); // 02
     }
 
     public void LearnTeleport()
     {
-        if (currClip == 1)
+        Debug.Log("Called LearnTeleport");
+        if (currClip == 1 && !voiceSource.isPlaying)
         {
             PlayClip(); // 03
             leftTooltip.UpdateText(gripTooltip, "");
@@ -82,7 +87,8 @@ public class Tutorial : MonoBehaviour {
 
     public void LearnGrab()
     {
-        if (currClip == 2)
+        Debug.Log("Triggered Teleport");
+        if (currClip == 2 && !voiceSource.isPlaying)
         {
             StartCoroutine("learnGrab");
         }
@@ -127,7 +133,7 @@ public class Tutorial : MonoBehaviour {
         PlayClip(); // 07
 
         yield return new WaitForSeconds(5);
-        chest.SetActive(false);
+        // chest.SetActive(false);
 
         yield return new WaitForSeconds(1);
         cabinet.SetActive(true);
@@ -154,7 +160,7 @@ public class Tutorial : MonoBehaviour {
 
         yield return new WaitForSeconds(6);
 
-        cabinet.SetActive(false);
+        // cabinet.SetActive(false);
         buttonWrap.SetActive(true);
     }
 
