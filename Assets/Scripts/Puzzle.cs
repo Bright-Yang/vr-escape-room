@@ -8,9 +8,18 @@ public class Puzzle : MonoBehaviour {
     [Header("Audio")]
     public GameObject ears;
     public List<GameObject> audioSources;
-    public AudioSource sfxSource;
-    public AudioClip sfxWin;
-    public AudioClip sfxTimeup;
+    public AudioSource ttsSource;
+    public AudioClip ttsWin;
+    public AudioClip ttsTimeup;
+
+    [Header("Portal")]
+    public AudioSource portalSfxSource;
+    public AudioClip sfxPortalRight;
+    public AudioClip sfxPortalWrong;
+
+    [Header("Door")]
+    public AudioSource doorSfxSource;
+    public AudioClip sfxDoorOpen;
 
     [Header("Marbles")]
     public List<GameObject> marbles; // R, G, B, Y
@@ -20,10 +29,13 @@ public class Puzzle : MonoBehaviour {
     [Header("UI")]
     public float totalMinutes;
     public GameObject canvas;
-    public Text countdown;
+    public Countdown countdown;
+    private bool timeupInProcess = false;
 
     private float totalSec;
-    private bool[] marbleStatus = { false, false, false, false };
+    private bool[] marbleFull = { false, false, false, false }; // If there's a marble in the slot
+    private bool[] marbleStatus = { false, false, false, false }; // If it's the correct marble
+    private bool marbleFilled;
     private bool marbleCorrect;
 
     // Use this for initialization
@@ -35,7 +47,7 @@ public class Puzzle : MonoBehaviour {
         }
 
         totalSec = totalMinutes * 60;
-        UpdateCountdown();
+        countdown.startCountdown(totalSec);
     }
 
     public void ShowMarblesClue()
@@ -46,21 +58,37 @@ public class Puzzle : MonoBehaviour {
     public void MarbleEnter(string marbleName, string slotName)
     {
 
-        if (marbleName == "MarbleRed" && slotName == "SlotRed")
+        if (slotName == "SlotRed")
         {
-            marbleStatus[0] = true;
+            marbleFull[0] = true;
+            if (marbleName == "MarbleRed")
+            {
+                marbleStatus[0] = true;
+            }
         }
-        else if (marbleName == "MarbleGreen" && slotName == "SlotGreen")
+        else if (slotName == "SlotGreen")
         {
-            marbleStatus[1] = true;
+            marbleFull[1] = true;
+            if (marbleName == "MarbleGreen")
+            {
+                marbleStatus[1] = true;
+            }
         }
-        else if (marbleName == "MarbleBlue" && slotName == "SlotBlue")
+        else if (slotName == "SlotBlue")
         {
-            marbleStatus[2] = true;
+            marbleFull[2] = true;
+            if (marbleName == "MarbleBlue")
+            {
+                marbleStatus[2] = true;
+            }
         }
-        else if (marbleName == "MarbleYellow" && slotName == "SlotYellow")
+        else if (slotName == "SlotYellow")
         {
-            marbleStatus[3] = true;
+            marbleFull[3] = true;
+            if (marbleName == "MarbleYellow")
+            {
+                marbleStatus[3] = true;
+            }
         }
 
         CheckPuzzle();
@@ -70,25 +98,41 @@ public class Puzzle : MonoBehaviour {
     {
         if (slotName == "SlotRed")
         {
+            marbleFull[0] = false;
             marbleStatus[0] = false;
         }
         else if (slotName == "SlotGreen")
         {
+            marbleFull[1] = false;
             marbleStatus[1] = false;
         }
         else if (slotName == "SlotBlue")
         {
+            marbleFull[2] = false;
             marbleStatus[2] = false;
         }
         else if (slotName == "SlotYellow")
         {
+            marbleFull[3] = false;
             marbleStatus[3] = false;
         }
     }
 
     public void CheckPuzzle()
     {
-        // Check Marbles
+        // Check if Marbles are filled
+
+        marbleFilled = true;
+
+        for (int i = 0; i < marbleFull.Length; i++)
+        {
+            if (marbleFull[i] == false)
+            {
+                marbleFilled = false;
+            }
+        }
+
+        // Check if Marbles are correct
 
         marbleCorrect = true;
 
@@ -100,21 +144,25 @@ public class Puzzle : MonoBehaviour {
             }
         }
 
-        // Check Player
-
         // If both are true, escape!
 
         if (marbleCorrect == true)
         {
             StartCoroutine("escape");
+        } else if (marbleFilled == true) {
+            portalSfxSource.clip = sfxPortalWrong;
+            portalSfxSource.Play();
         }
     }
 
     IEnumerator escape()
     {
-        sfxSource.clip = sfxWin;
-        sfxSource.Play();
-        yield return new WaitForSeconds(sfxSource.clip.length);
+        portalSfxSource.clip = sfxPortalRight;
+        portalSfxSource.Play();
+        yield return new WaitForSeconds(portalSfxSource.clip.length);
+        ttsSource.clip = ttsWin;
+        ttsSource.Play();
+        yield return new WaitForSeconds(ttsSource.clip.length);
         LoadWelcome();
     }
 
@@ -125,6 +173,8 @@ public class Puzzle : MonoBehaviour {
 
     public void LoadTutorial()
     {
+        SteamVR_Fade.View(Color.clear, 0);
+        SteamVR_Fade.View(Color.black, 1);
         SteamVR_LoadLevel.Begin("Tutorial");
     }
 
@@ -141,32 +191,27 @@ public class Puzzle : MonoBehaviour {
         }
     }
 
-    private void UpdateCountdown()
-    {
-        float remainTime = totalSec - Time.timeSinceLevelLoad;
-        float remainMin = Mathf.Floor(remainTime / 60);
-        float remainSec = Mathf.Floor(remainTime - remainMin * 60);
-        string countdownString = remainMin.ToString("00") + ":" + remainSec.ToString("00");
-        countdown.text = countdownString;
-    }
-
     private void Update()
     {
         if (canvas.activeSelf)
         {
-            UpdateCountdown();
+            countdown.updateText();
         }
-        if (Time.timeSinceLevelLoad > totalSec)
+        if (Time.timeSinceLevelLoad > totalSec && !timeupInProcess)
         {
+            timeupInProcess = true;
             StartCoroutine("timeup");
         }
     }
 
     IEnumerator timeup()
     {
-        sfxSource.clip = sfxTimeup;
-        sfxSource.Play();
-        yield return new WaitForSeconds(sfxSource.clip.length);
+        doorSfxSource.clip = sfxDoorOpen;
+        doorSfxSource.Play();
+        yield return new WaitForSeconds(doorSfxSource.clip.length);
+        ttsSource.clip = ttsTimeup;
+        ttsSource.Play();
+        yield return new WaitForSeconds(ttsSource.clip.length);
         LoadWelcome();
     }
 

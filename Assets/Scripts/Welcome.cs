@@ -14,6 +14,7 @@ public class Welcome : MonoBehaviour {
     public List<GameObject> audioSources;
     public AudioSource bgm;
     public AudioSource story;
+    public float storyLength;
 
     [Header("Canvas")]
     public GameObject welcomeCanvas;
@@ -55,9 +56,9 @@ public class Welcome : MonoBehaviour {
         bgm.Pause();
         story.Play();
 
-        yield return new WaitForSeconds(70);
+        yield return new WaitForSeconds(storyLength + 2);
         masterOff.TransitionTo(1);
-        
+
         yield return new WaitForSeconds(1);
         SkipStory();
         bgmOn.TransitionTo(1);
@@ -69,6 +70,8 @@ public class Welcome : MonoBehaviour {
 
     public void LoadTutorial()
     {
+        SteamVR_Fade.View(Color.clear, 0);
+        SteamVR_Fade.View(Color.black, 1);
         SteamVR_LoadLevel.Begin("Tutorial");
     }
 

@@ -10,9 +10,13 @@ public class Tutorial : MonoBehaviour {
     public GameObject ears;
     public List<GameObject> audioSources;
     public AudioSource voiceSource;
-    public AudioSource sfxSource;
     public List<AudioClip> voiceOvers;
     public int currClip;
+
+    [Header("SFX")]
+    public AudioSource keySource;
+    public AudioSource buttonWrapSource;
+    public AudioClip sfxNotification;
 
     [Header("Tooltip")]
     public VRTK_ControllerTooltips leftTooltip;
@@ -22,13 +26,11 @@ public class Tutorial : MonoBehaviour {
     public VRTK_ControllerTooltips.TooltipButtons touchpadTooltip;
     public VRTK_ControllerTooltips.TooltipButtons menuTooltip;
 
-    [Header("Objects")]
+    [Header("Countdown")]
+    public float totalMinutes;
+    private float totalSec;
     public GameObject canvas;
-    public GameObject desk;
-    public GameObject key;
-    public GameObject chest;
-    public GameObject cabinet;
-    public GameObject buttonWrap;
+    public Countdown countdown;
 
     // Use this for initialization
     void Start () {
@@ -40,6 +42,9 @@ public class Tutorial : MonoBehaviour {
 
         currClip = -1;
         StartCoroutine("startTutorial");
+
+        totalSec = totalMinutes * 60;
+        countdown.startCountdown(totalSec);
     }
 
     void PlayClip()
@@ -58,7 +63,6 @@ public class Tutorial : MonoBehaviour {
         PlayClip(); // 01
 
         yield return new WaitForSeconds(voiceOvers[currClip].length + 1);
-
         
         SteamVR_Fade.View(Color.black, 0);
         SteamVR_Fade.View(Color.clear, 1);
@@ -69,13 +73,11 @@ public class Tutorial : MonoBehaviour {
 
     public void LearnWalk()
     {
-        Debug.Log("Called LearnWalk");
         PlayClip(); // 02
     }
 
     public void LearnTeleport()
     {
-        Debug.Log("Called LearnTeleport");
         if (currClip == 1 && !voiceSource.isPlaying)
         {
             PlayClip(); // 03
@@ -87,7 +89,6 @@ public class Tutorial : MonoBehaviour {
 
     public void LearnGrab()
     {
-        Debug.Log("Triggered Teleport");
         if (currClip == 2 && !voiceSource.isPlaying)
         {
             StartCoroutine("learnGrab");
@@ -97,8 +98,6 @@ public class Tutorial : MonoBehaviour {
     IEnumerator learnGrab()
     {
         PlayClip(); // 04
-        desk.SetActive(true);
-        key.SetActive(true);
 
         yield return new WaitForSeconds(voiceOvers[currClip].length + 1);
 
@@ -107,7 +106,11 @@ public class Tutorial : MonoBehaviour {
         leftTooltip.UpdateText(touchpadTooltip, "");
         leftTooltip.UpdateText(triggerTooltip, "Grab");
         rightTooltip.UpdateText(triggerTooltip, "Grab");
-        
+
+        yield return new WaitForSeconds(voiceOvers[currClip].length + 1);
+
+        keySource.clip = sfxNotification;
+        keySource.Play();
     }
 
     public void LearnUse ()
@@ -115,7 +118,6 @@ public class Tutorial : MonoBehaviour {
         if (currClip == 4)
         {
             PlayClip(); // 06
-            chest.SetActive(true);
         }
     }
 
@@ -131,12 +133,6 @@ public class Tutorial : MonoBehaviour {
     {
         yield return new WaitForSeconds(1);
         PlayClip(); // 07
-
-        yield return new WaitForSeconds(5);
-        // chest.SetActive(false);
-
-        yield return new WaitForSeconds(1);
-        cabinet.SetActive(true);
     }
 
     public void LearnButton ()
@@ -158,10 +154,10 @@ public class Tutorial : MonoBehaviour {
         rightTooltip.UpdateText(triggerTooltip, "");
         rightTooltip.UpdateText(touchpadTooltip, "Interact");
 
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(voiceOvers[currClip].length + 1);
 
-        // cabinet.SetActive(false);
-        buttonWrap.SetActive(true);
+        buttonWrapSource.clip = sfxNotification;
+        buttonWrapSource.Play();
     }
 
     public void LearnMenu ()
@@ -214,6 +210,14 @@ public class Tutorial : MonoBehaviour {
         } else
         {
             canvas.SetActive(true);
+        }
+    }
+
+    private void Update()
+    {
+        if (canvas.activeSelf)
+        {
+            countdown.updateText();
         }
     }
 
