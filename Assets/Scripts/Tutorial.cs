@@ -40,6 +40,7 @@ public class Tutorial : MonoBehaviour {
             audioSource.transform.SetParent(ears.transform);
         }
 
+        
         currClip = -1;
         StartCoroutine("startTutorial");
 
@@ -56,18 +57,12 @@ public class Tutorial : MonoBehaviour {
 
     IEnumerator startTutorial()
     {
-        SteamVR_Fade.View(Color.black, 0);
-        yield return new WaitForSeconds(1);
-
         canvas.SetActive(false);
+        yield return new WaitForSeconds(1);
+        
         PlayClip(); // 01
 
         yield return new WaitForSeconds(voiceOvers[currClip].length + 1);
-        
-        SteamVR_Fade.View(Color.black, 0);
-        SteamVR_Fade.View(Color.clear, 1);
-
-        yield return new WaitForSeconds(2);
         LearnWalk();
     }
 
