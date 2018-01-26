@@ -1,5 +1,7 @@
 ## Achievements
 
+[![](video-achievements.png)](https://youtu.be/hCR_Ps-QBZ8)
+
 #### Fundamentals (500 points)
 
 1. Scale achievement (100 points): Set the escape room to real-life room scale.

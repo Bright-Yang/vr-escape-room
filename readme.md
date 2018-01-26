@@ -35,6 +35,8 @@ I tried to convey a sense of excitement and urgency with the opening story; a pl
 
 ## Video Walkthrough
 
+[![](video-walkthrough.png)](https://youtu.be/cLp502A25Gw)
+
 ## Resources Used
 - Plugins
     - [SteamVR](https://assetstore.unity.com/packages/templates/systems/steamvr-plugin-32647)
@@ -44,4 +46,10 @@ I tried to convey a sense of excitement and urgency with the opening story; a pl
     - [http://soundimage.org/wp-content/uploads/2016/07/RPG-Battle-Climax_v001.mp3](http://soundimage.org/wp-content/uploads/2016/07/RPG-Battle-Climax_v001.mp3)
     - [http://soundimage.org/wp-content/uploads/2016/02/RPG-Intro_v001_Looping.mp3](http://soundimage.org/wp-content/uploads/2016/02/RPG-Intro_v001_Looping.mp3)
 - Sound effects
+    - [http://soundimage.org/wp-content/uploads/2016/04/PowerUp28.mp3](http://soundimage.org/wp-content/uploads/2016/04/PowerUp28.mp3)
+    - [http://soundimage.org/wp-content/uploads/2016/04/PowerDown7.mp3](http://soundimage.org/wp-content/uploads/2016/04/PowerDown7.mp3)
+    - [http://soundimage.org/wp-content/uploads/2017/03/Interior-Door_Close.mp3](http://soundimage.org/wp-content/uploads/2017/03/Interior-Door_Close.mp3)
+    - [http://soundimage.org/wp-content/uploads/2017/03/Interior-Door_Unlock.mp3](http://soundimage.org/wp-content/uploads/2017/03/Interior-Door_Unlock.mp3)
+    - [http://soundimage.org/wp-content/uploads/2016/04/UI_Quirky29.mp3](http://soundimage.org/wp-content/uploads/2016/04/UI_Quirky29.mp3)
+    - [http://soundimage.org/wp-content/uploads/2016/04/UI_Quirky32.mp3](http://soundimage.org/wp-content/uploads/2016/04/UI_Quirky32.mp3)
 - Voiceover: Mac text-to-speech service, Alex
